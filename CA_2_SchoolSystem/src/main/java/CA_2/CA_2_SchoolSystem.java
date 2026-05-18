@@ -4,6 +4,8 @@
 
 package CA_2;
 import java.util.Scanner;
+import java.util.List;
+
 
 /**
  *
@@ -11,7 +13,7 @@ import java.util.Scanner;
  */
 public class CA_2_SchoolSystem {
 
-   public static void main(String[] args) {
+    public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
         EmployeeService service = new EmployeeService();
@@ -37,8 +39,20 @@ public class CA_2_SchoolSystem {
             }
 
             switch (option) {
+
                 case SORT:
-                    System.out.println("Sorting list (coming soon)...");
+                    if (service.getEmployees().isEmpty()) {
+                        System.out.println("No employees to sort.");
+                        break;
+                    }
+
+                    RecursiveMergeSort sorter = new RecursiveMergeSort();
+                    List<Employee> sortedList = sorter.mergeSort(service.getEmployees());
+
+                    System.out.println("\n===== SORTED EMPLOYEES (BY NAME) =====");
+                    for (Employee e : sortedList) {
+                        System.out.println(e);
+                    }
                     break;
 
                 case SEARCH:
@@ -63,4 +77,3 @@ public class CA_2_SchoolSystem {
         scanner.close();
     }
 }
-
