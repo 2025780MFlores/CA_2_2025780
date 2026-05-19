@@ -40,6 +40,9 @@ public class CA_2_SchoolSystem {
 
             switch (option) {
 
+                // ============================
+                // SORT (MERGE SORT)
+                // ============================
                 case SORT:
                     if (service.getEmployees().isEmpty()) {
                         System.out.println("No employees to sort.");
@@ -55,18 +58,51 @@ public class CA_2_SchoolSystem {
                     }
                     break;
 
+                // ============================
+                // SEARCH (BINARY SEARCH)
+                // ============================
                 case SEARCH:
-                    System.out.println("Searching (coming soon)...");
+                    if (service.getEmployees().isEmpty()) {
+                        System.out.println("No employees to search.");
+                        break;
+                    }
+
+                    System.out.print("Enter the employee name to search: ");
+                    String nameToSearch = scanner.nextLine();
+
+                    // Ordenar antes de buscar
+                    RecursiveMergeSort sorter2 = new RecursiveMergeSort();
+                    List<Employee> sortedForSearch = sorter2.mergeSort(service.getEmployees());
+
+                    // Binary search
+                    RecursiveBinarySearch searcher = new RecursiveBinarySearch();
+                    int index = searcher.binarySearch(sortedForSearch, nameToSearch, 0, sortedForSearch.size() - 1);
+
+                    if (index != -1) {
+                        System.out.println("\nEmployee found:");
+                        System.out.println(sortedForSearch.get(index));
+                    } else {
+                        System.out.println("\nEmployee not found.");
+                    }
                     break;
 
+                // ============================
+                // ADD EMPLOYEE
+                // ============================
                 case ADD_RECORD:
                     service.addEmployeeFromInput(scanner);
                     break;
 
+                // ============================
+                // BINARY TREE (mañana)
+                // ============================
                 case CREATE_BINARY_TREE:
                     System.out.println("Binary tree (coming soon)...");
                     break;
 
+                // ============================
+                // EXIT
+                // ============================
                 case EXIT:
                     System.out.println("Exiting program...");
                     break;
