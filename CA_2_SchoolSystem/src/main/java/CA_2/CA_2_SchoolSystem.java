@@ -94,10 +94,21 @@ public class CA_2_SchoolSystem {
                     break;
 
                 // ============================
-                // BINARY TREE (mañana)
+                // BINARY TREE
                 // ============================
                 case CREATE_BINARY_TREE:
-                    System.out.println("Binary tree (coming soon)...");
+                    if (service.getEmployees().isEmpty()) {
+                        System.out.println("No employees to insert into the binary tree.");
+                        break;
+                    }
+
+                    BinaryTree tree = new BinaryTree();
+
+                    for (Employee emp : service.getEmployees()) {
+                        tree.insert(emp);
+                    }
+
+                    tree.inOrderTraversal();
                     break;
 
                 // ============================
