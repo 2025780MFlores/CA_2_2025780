@@ -4,6 +4,9 @@
  */
 package CA_2;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  *
  * @author mf251
@@ -12,44 +15,77 @@ public class BinaryTree {
 
     private TreeNode root;
 
-    // Insertar un empleado en el árbol
-    public void insert(Employee employee) {
-        root = insertRecursive(root, employee);
+    public BinaryTree() {
+        this.root = null;
     }
 
-    // Inserción recursiva
-    private TreeNode insertRecursive(TreeNode current, Employee employee) {
+    // LEVEL-ORDER INSERTION
+    public void insert(Employee emp) {
+        TreeNode newNode = new TreeNode(emp);
 
-        // Caso base: llegamos a un espacio vacío
-        if (current == null) {
-            return new TreeNode(employee);
-        }
-
-        // Comparar por nombre (orden alfabético)
-        int comparison = employee.getName().compareToIgnoreCase(current.getData().getName());
-
-        if (comparison < 0) {
-            current.setLeft(insertRecursive(current.getLeft(), employee));
-        } else {
-            current.setRight(insertRecursive(current.getRight(), employee));
-        }
-
-        return current;
-    }
-
-    // Recorrido INORDER (izquierda - nodo - derecha)
-    public void inOrderTraversal() {
-        System.out.println("\n===== BINARY TREE (INORDER TRAVERSAL) =====");
-        inOrder(root);
-    }
-
-    private void inOrder(TreeNode node) {
-        if (node == null) {
+        if (root == null) {
+            root = newNode;
             return;
         }
 
-        inOrder(node.getLeft());
-        System.out.println(node.getData());
-        inOrder(node.getRight());
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+
+            if (current.getLeft() == null) {
+                current.setLeft(newNode);
+                return;
+            } else {
+                queue.add(current.getLeft());
+            }
+
+            if (current.getRight() == null) {
+                current.setRight(newNode);
+                return;
+            } else {
+                queue.add(current.getRight());
+            }
+        }
+    }
+
+    // LEVEL-ORDER TRAVERSAL
+    public void printLevelOrder() {
+        if (root == null) {
+            System.out.println("Tree is empty.");
+            return;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+            System.out.println(current.getData());
+
+            if (current.getLeft() != null) queue.add(current.getLeft());
+            if (current.getRight() != null) queue.add(current.getRight());
+        }
+    }
+
+    // HEIGHT OF TREE
+    private int getHeight(TreeNode node) {
+        if (node == null) return 0;
+        return 1 + Math.max(getHeight(node.getLeft()), getHeight(node.getRight()));
+    }
+
+    public int getHeight() {
+        return getHeight(root);
+    }
+
+    // NODE COUNT
+    private int getNodeCount(TreeNode node) {
+        if (node == null) return 0;
+        return 1 + getNodeCount(node.getLeft()) + getNodeCount(node.getRight());
+    }
+
+    public int getNodeCount() {
+        return getNodeCount(root);
     }
 }

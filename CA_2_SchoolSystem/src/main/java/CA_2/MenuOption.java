@@ -12,6 +12,7 @@ public enum MenuOption {
     SORT,
     SEARCH,
     ADD_RECORD,
+    LOAD_FROM_FILE,
     CREATE_BINARY_TREE,
     EXIT
 }

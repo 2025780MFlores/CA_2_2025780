@@ -11,6 +11,7 @@ package CA_2;
 public enum ManagerType {
     PRINCIPAL,
     VICE_PRINCIPAL,
-    HEAD_TEACHER
+    SUPERVISOR,
+    TEACHER,
+    ADMIN
 }
-
