@@ -9,9 +9,13 @@ package CA_2;
  * @author mf251
  */
 public enum DepartmentType {
-    MATHEMATICS,
-    SCIENCE,
-    SPORTS,
-    ADMINISTRATION,
-    LANGUAGES
+    IT_DEVELOPMENT,
+    SALES,
+    HR,
+    FINANCE,
+    MARKETING,
+    ACCOUNTING,
+    OPERATIONS,
+    CUSTOMER_SERVICE,
+    TECHNICAL_SUPPORT
 }

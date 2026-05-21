@@ -11,6 +11,8 @@ package CA_2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class EmployeeService {
 
@@ -63,4 +65,65 @@ public class EmployeeService {
 
         addEmployee(name, managerType, department);
     }
+
+    // ============================================
+    // LOAD EMPLOYEES FROM FILE (NEW METHOD)
+    // ============================================
+    public void loadEmployeesFromFile(String filename) {
+    try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+
+        String line;
+        while ((line = br.readLine()) != null) {
+
+            // Saltar líneas vacías
+            if (line.trim().isEmpty()) {
+                continue;
+            }
+
+            String[] parts = line.split(",");
+
+            // Tu archivo tiene 9 columnas
+            if (parts.length < 6) {
+                System.out.println("Invalid line format: " + line);
+                continue;
+            }
+
+            // Columnas del archivo:
+            // 0 = First name
+            // 1 = Last name
+            // 2 = Gender
+            // 3 = Email
+            // 4 = Salary
+            // 5 = Department
+            // 6 = Position
+            // 7 = Job title
+            // 8 = Company
+
+            String firstName = parts[0].trim();
+            String lastName = parts[1].trim();
+            String fullName = firstName + " " + lastName;
+
+            String deptString = parts[5].trim().toUpperCase();
+
+            DepartmentType dept;
+            try {
+                dept = DepartmentType.valueOf(deptString.replace(" ", "_"));
+            } catch (Exception e) {
+                System.out.println("Invalid department: " + deptString);
+                continue;
+            }
+
+            // ManagerType por defecto
+            ManagerType defaultManager = ManagerType.SUPERVISOR;
+
+            Employee emp = new Employee(fullName, defaultManager, dept);
+            employees.add(emp);
+        }
+
+        System.out.println("Employees loaded successfully from file.");
+
+    } catch (Exception e) {
+        System.out.println("Error reading file: " + e.getMessage());
+    }
+}
 }

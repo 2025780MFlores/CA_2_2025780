@@ -70,11 +70,9 @@ public class CA_2_SchoolSystem {
                     System.out.print("Enter the employee name to search: ");
                     String nameToSearch = scanner.nextLine();
 
-                    // Ordenar antes de buscar
                     RecursiveMergeSort sorter2 = new RecursiveMergeSort();
                     List<Employee> sortedForSearch = sorter2.mergeSort(service.getEmployees());
 
-                    // Binary search
                     RecursiveBinarySearch searcher = new RecursiveBinarySearch();
                     int index = searcher.binarySearch(sortedForSearch, nameToSearch, 0, sortedForSearch.size() - 1);
 
@@ -94,7 +92,16 @@ public class CA_2_SchoolSystem {
                     break;
 
                 // ============================
-                // BINARY TREE
+                // LOAD EMPLOYEES FROM FILE
+                // ============================
+                case LOAD_FROM_FILE:
+                    System.out.print("Enter filename (e.g., employees.txt): ");
+                    String filename = scanner.nextLine();
+                    service.loadEmployeesFromFile(filename);
+                    break;
+
+                // ============================
+                // BINARY TREE (LEVEL ORDER)
                 // ============================
                 case CREATE_BINARY_TREE:
                     if (service.getEmployees().isEmpty()) {
@@ -108,7 +115,11 @@ public class CA_2_SchoolSystem {
                         tree.insert(emp);
                     }
 
-                    tree.inOrderTraversal();
+                    System.out.println("\n===== BINARY TREE (LEVEL ORDER TRAVERSAL) =====");
+                    tree.printLevelOrder();
+
+                    System.out.println("\nTree Height: " + tree.getHeight());
+                    System.out.println("Total Nodes: " + tree.getNodeCount());
                     break;
 
                 // ============================
