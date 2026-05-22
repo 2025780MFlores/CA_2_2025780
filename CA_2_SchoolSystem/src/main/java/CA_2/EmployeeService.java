@@ -27,44 +27,62 @@ public class EmployeeService {
         return employees;
     }
 
-    public void addEmployeeFromInput(Scanner scanner) {
+   public void addEmployeeFromInput(Scanner scanner) {
+
+    // ===== name validation =====
+    String name;
+    while (true) {
         System.out.print("Enter employee name: ");
-        String name = scanner.nextLine();
+        name = scanner.nextLine().trim();
 
-        System.out.println("\nSelect Manager Type:");
-        for (ManagerType m : ManagerType.values()) {
-            System.out.println("- " + m);
+        // only letter and spaces allowed
+        if (name.matches("[a-zA-Z ]+")) {
+            break;
+        } else {
+            System.out.println("Invalid name. Only letters and spaces are allowed.");
         }
-
-        ManagerType managerType = null;
-        while (managerType == null) {
-            System.out.print("Your choice: ");
-            String input = scanner.nextLine().toUpperCase();
-            try {
-                managerType = ManagerType.valueOf(input);
-            } catch (Exception e) {
-                System.out.println("Invalid manager type. Try again.");
-            }
-        }
-
-        System.out.println("\nSelect Department:");
-        for (DepartmentType d : DepartmentType.values()) {
-            System.out.println("- " + d);
-        }
-
-        DepartmentType department = null;
-        while (department == null) {
-            System.out.print("Your choice: ");
-            String input = scanner.nextLine().toUpperCase();
-            try {
-                department = DepartmentType.valueOf(input);
-            } catch (Exception e) {
-                System.out.println("Invalid department. Try again.");
-            }
-        }
-
-        addEmployee(name, managerType, department);
     }
+
+    // ===== MANAGER TYPE =====
+    System.out.println("\nSelect Manager Type:");
+    for (ManagerType m : ManagerType.values()) {
+        System.out.println("- " + m);
+    }
+
+    ManagerType managerType = null;
+    while (managerType == null) {
+        System.out.print("Your choice: ");
+        String input = scanner.nextLine().toUpperCase();
+        try {
+            managerType = ManagerType.valueOf(input);
+        } catch (Exception e) {
+            System.out.println("Invalid manager type. Try again.");
+        }
+    }
+
+    // ===== DEPARTMENT =====
+    System.out.println("\nSelect Department:");
+    for (DepartmentType d : DepartmentType.values()) {
+        System.out.println("- " + d);
+    }
+
+    DepartmentType department = null;
+    while (department == null) {
+        System.out.print("Your choice: ");
+        String input = scanner.nextLine().toUpperCase();
+        try {
+            department = DepartmentType.valueOf(input);
+        } catch (Exception e) {
+            System.out.println("Invalid department. Try again.");
+        }
+    }
+
+    // ===== create employee =====
+    addEmployee(name, managerType, department);
+
+    System.out.println("\nEmployee added successfully:");
+    System.out.println(name + " | " + managerType + " | " + department);
+}
 
     // ============================================
     // LOAD EMPLOYEES FROM FILE (NEW METHOD)
@@ -75,20 +93,20 @@ public class EmployeeService {
         String line;
         while ((line = br.readLine()) != null) {
 
-            // Saltar líneas vacías
+            // jump empty lines
             if (line.trim().isEmpty()) {
                 continue;
             }
 
             String[] parts = line.split(",");
 
-            // Tu archivo tiene 9 columnas
+            // 9 columns
             if (parts.length < 6) {
                 System.out.println("Invalid line format: " + line);
                 continue;
             }
 
-            // Columnas del archivo:
+            // File Colunms:
             // 0 = First name
             // 1 = Last name
             // 2 = Gender
@@ -113,7 +131,7 @@ public class EmployeeService {
                 continue;
             }
 
-            // ManagerType por defecto
+            // ManagerType by default
             ManagerType defaultManager = ManagerType.SUPERVISOR;
 
             Employee emp = new Employee(fullName, defaultManager, dept);
